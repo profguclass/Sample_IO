@@ -42,4 +42,16 @@ async function loadDefaultWorkbook(){
   $('status').textContent='준비 실패: '+error.message+' — 연결 상태를 확인하고 새로고침하세요.';
  }
 }
-loadDefaultWorkbook();
+$('load-basic').onclick=async()=>{
+ const button=$('load-basic');
+ button.disabled=true;
+ button.textContent='불러오는 중…';
+ try {
+  await loadDefaultWorkbook();
+  const ready=!$('sheet').disabled;
+  button.textContent=ready?'기본부문 불러오기 완료':'기본부문 다시 불러오기';
+  button.disabled=ready;
+ }finally{
+  if($('sheet').disabled){button.disabled=false;button.textContent='기본부문 다시 불러오기';}
+ }
+};
